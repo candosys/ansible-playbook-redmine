@@ -4,6 +4,11 @@
 - name: sudo test
   shell: echo $HOME
 
+# fix to [ansible issue #7474]:https://github.com/ansible/ansible/issues/7474 that fails the gitoline clone process and prints the message: "github.com has an unknown hostkey"
+# the fix was suggested by @eveyrat on [protobox issue #78]:https://github.com/protobox/protobox/issues/78
+- name: add github key to known hosts
+  shell: ssh-keyscan github.com >> /etc/ssh/ssh_known_hosts
+
 - name: clone gitolite repo
   git: repo=git://github.com/sitaramc/gitolite dest={{ gitolite_dir }}
 
